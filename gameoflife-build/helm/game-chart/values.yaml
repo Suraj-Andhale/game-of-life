@@ -1,0 +1,7 @@
+image:
+  repository: your-dockerhub/game-of-life
+  tag: latest
+
+service:
+  type: NodePort
+  nodePort: 30007

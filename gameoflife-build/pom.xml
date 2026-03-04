@@ -16,7 +16,6 @@
 
   <dependencies>
 
-    <!-- Servlet API -->
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>javax.servlet-api</artifactId>
@@ -26,18 +25,24 @@
 
   </dependencies>
 
-<build>
-  <finalName>game</finalName>
+  <build>
+    <finalName>game</finalName>
 
-  <plugins>
+    <plugins>
 
-    <plugin>
-         <groupId>org.apache.maven.plugins</groupId>
-         <artifactId>maven-surefire-plugin</artifactId>
-         <version>3.2.5</version>
-    </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.2</version>
+      </plugin>
 
-  </plugins>
-</build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>3.2.5</version>
+      </plugin>
+
+    </plugins>
+  </build>
 
 </project>

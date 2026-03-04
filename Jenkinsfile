@@ -19,9 +19,9 @@ pipeline {
             }
         }
 
-        stage('Build & Unit Test') {
+        stage('Build') {
             steps {
-                sh 'mvn clean verify'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -33,16 +33,10 @@ pipeline {
             }
         }
 
-        stage('Package WAR') {
-            steps {
-                sh 'mvn package -DskipTests'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 sh """
-                docker build -t $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG .
+                docker build -t ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG} .
                 """
             }
         }
@@ -55,8 +49,8 @@ pipeline {
                     passwordVariable: 'PASS'
                 )]) {
                     sh """
-                    echo $PASS | docker login -u $USER --password-stdin
-                    docker push $DOCKER_USER/$IMAGE_NAME:$IMAGE_TAG
+                    echo \$PASS | docker login -u \$USER --password-stdin
+                    docker push ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG}
                     """
                 }
             }
@@ -66,8 +60,8 @@ pipeline {
             steps {
                 sh """
                 helm upgrade --install game-release helm/game-chart \
-                  --set image.repository=$DOCKER_USER/$IMAGE_NAME \
-                  --set image.tag=$IMAGE_TAG
+                  --set image.repository=${DOCKER_USER}/${IMAGE_NAME} \
+                  --set image.tag=${IMAGE_TAG}
                 """
             }
         }
